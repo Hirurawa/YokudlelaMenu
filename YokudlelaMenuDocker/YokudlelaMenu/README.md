@@ -1,2 +1,0 @@
-# YokudlelaMenu
-JavaMikroszervíz
