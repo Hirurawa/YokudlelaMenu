@@ -10,18 +10,15 @@
     <packaging>jar</packaging>
 
     <dependencies>
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.5.4</version>
         </dependency>
+
         <!-- Spring openAPI-->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.10</version>
-        </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
@@ -53,13 +50,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.10.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.10.0</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
@@ -88,7 +83,6 @@
             <version>0.11.1</version>
         </dependency>
 
-
         <!-- Validáció -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -101,69 +95,158 @@
             <version>2.0.2</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.49</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+
+        <!-- Adatbázis kezelés -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.3.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.3.12</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.49</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+-->
     </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>yokudlela.menu.spring.MenuApplication</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>4.4.1</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>yokudlela/menu</name>
+                            <build>
+                                <dockerFileDir>${project.basedir}/src/main/resources/docker/</dockerFileDir>
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                                <tags>
+                                    <tag>menu-latest</tag>
+                                    <tag>menu-1.0</tag>
+                                </tags>
+                                <assembly>
+                                    <inline>
+                                        <files>
+                                            <file>
+                                                <source>${project.build.directory}/YokudlelaMenu.jar</source>
+                                                <outputDirectory>./opt</outputDirectory>
+                                                <destName>YokudlelaMenu.jar</destName>
+                                            </file>
+                                        </files>
+                                    </inline>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                    <authConfig>
+                        <username>user</username>
+                        <password>password</password>
+                    </authConfig>
+                </configuration>
+            </plugin>
+            <!--
+                        <plugin>
+                            <groupId>org.liquibase</groupId>
+                            <artifactId>liquibase-maven-plugin</artifactId>
+                            <version>4.2.2</version>
+                            <configuration>
+                                <propertyFile>src/main/resources/db/liquibase.properties</propertyFile>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>disable-run</id>
+                                    <phase>spring-boot:run</phase>
+                                    <configuration>
+                                        <skip>true</skip>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>disable-install</id>
+                                    <phase>install</phase>
+                                    <configuration>
+                                        <skip>true</skip>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>disable-clean</id>
+                                    <phase>clean</phase>
+                                    <configuration>
+                                        <skip>true</skip>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>disable-package</id>
+                                    <phase>package</phase>
+                                    <configuration>
+                                        <skip>true</skip>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>create-schema</id>
+                                    <phase>liquibase:update</phase>
+                                    <goals>
+                                        <goal>update</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>mysql</groupId>
+                                    <artifactId>mysql-connector-java</artifactId>
+                                    <version>5.1.49</version>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                        -->
+        </plugins>
+
+    </build>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-    <build>
-    <finalName>${project.artifactId}</finalName>
-    <plugins>
-
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>repackage</goal>
-                    </goals>
-                    <configuration>
-                        <mainClass>yokudlela.menu.spring.MenuApplication</mainClass>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-
-        <plugin>
-            <groupId>io.fabric8</groupId>
-            <artifactId>fabric8-maven-plugin</artifactId>
-            <version>4.4.1</version>
-            <configuration>
-                <images>
-                    <image>
-                        <name>yokudlela/menu</name>
-                        <build>
-                            <dockerFileDir>${project.basedir}/src/main/resources/docker/</dockerFileDir>
-                            <assembly>
-                                <descriptorRef>artifact</descriptorRef>
-                            </assembly>
-                            <tags>
-                                <tag>menu-latest</tag>
-                                <tag>menu-1.0</tag>
-                            </tags>
-                            <assembly>
-                                <inline>
-                                    <files>
-                                        <file>
-                                            <source>${project.build.directory}/YokudlelaMenu.jar</source>
-                                            <outputDirectory>./opt</outputDirectory>
-                                            <destName>YokudlelaMenu.jar</destName>
-                                        </file>
-                                    </files>
-                                </inline>
-                            </assembly>
-                        </build>
-                    </image>
-                </images>
-                <authConfig>
-                    <username>user</username>
-                    <password>password</password>
-                </authConfig>
-            </configuration>
-
-        </plugin>
-
-    </plugins>
-    </build>
 </project>

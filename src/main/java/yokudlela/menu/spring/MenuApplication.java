@@ -30,7 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         description = "KeyCloak Alteo",
         in = SecuritySchemeIn.HEADER,
         flows = @OAuthFlows(
-                implicit = @OAuthFlow(authorizationUrl = "http://172.17.0.1:6080/auth/realms/yokudlela/protocol/openid-connect/auth?client_id=account&redirect_uri=http://172.17.0.1:8080/menu/swagger-ui/oauth2-redirect.html&response_type=code&scope=openid")
+                implicit = @OAuthFlow(authorizationUrl = "http://172.17.0.1:6080/auth/realms/yokudlela/protocol/openid-connect/auth?client_id=account&redirect_uri=http://localhost:8080/menu/swagger-ui/oauth2-redirect.html&response_type=code&scope=openid")
         )
 )
 
@@ -44,7 +44,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         openIdConnectUrl = "http://172.17.0.1:6080/auth/realms/yokudlela/.well-known/openid-configuration"
 )
 
-
 @SecurityScheme(
         type = SecuritySchemeType.OPENIDCONNECT,
         name = "openid",
@@ -55,7 +54,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @OpenAPIDefinition(
         servers = {
                 @Server(url = "http://172.17.0.1:8080/menu", description = "local dev"),
-                @Server(url = "https://www.yokudlela.hu:1980//menu", description = "test") },
+                @Server(url = "https://www.yokudlela.hu:1980/menu", description = "test") },
         security ={
                 @SecurityRequirement(name = "apikey", scopes ={"menu"} ),
                 @SecurityRequirement(name = "openid", scopes ={"menu"} )
@@ -64,12 +63,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         info = @Info(
                 title = "Yokudlela Menu API",
                 version = "v1",
-                description = "description = \"Yokudlela Menu API for Graphical User Interface .",
+                description = "Yokudlela Menu API for Graphical User Interface.",
                 license = @License(
-                        name = "Custom 4D Soft",
-                        url = "https://www.4dsoft.hu"),
+                        name = "LICENSENAME",
+                        url = "https://www.DUMMY.URL"),
                 contact = @Contact(
-                        url = "https://www.DUMMYURL",
+                        url = "https://www.DUMMY.URL",
                         name = "MY NAME", email = "MY@E.MAIL")))
 
 @Configuration
@@ -81,16 +80,14 @@ public class MenuApplication {
     public static void main(String[] args) {
         SpringApplication.run(MenuApplication.class, args);
     }
-/*
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
-
-
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**");
             }
         };
-    }*/
+    }
 }

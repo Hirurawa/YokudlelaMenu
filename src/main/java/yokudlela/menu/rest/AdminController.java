@@ -1,10 +1,10 @@
 package yokudlela.menu.rest;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,8 +19,8 @@ import yokudlela.menu.datamodel.Menu;
 import java.util.List;
 
 @RestController()
-@RequestMapping(path = "/menu")
-public class MenuController {
+@RequestMapping(path = "/admin")
+public class AdminController {
 
     @Autowired
     private MenuRepository service;
@@ -29,14 +29,19 @@ public class MenuController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Menu.class)) }),
-            @ApiResponse(responseCode = "500", description = "Unsuccessful",
+            @ApiResponse(responseCode = "500", description = "Already exsists",
                     content = { @Content(mediaType = "application/json") })
     })
-    @Operation(summary = "Get all menu")
-    @GetMapping(path = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Menu> getAll()
-    {
-        return service.getAll();
+    @Operation(
+            security = {
+                    @SecurityRequirement(name = "apikey",scopes = {"menu"}),
+                    @SecurityRequirement(name = "openid",scopes = {"menu"}),
+                    @SecurityRequirement(name = "oauth2",scopes = {"menu"}),
+            },
+            summary = "Add new menu")
+    @PostMapping(path = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Menu add(@Parameter(description = "The new menu", required = true) @RequestBody(required = true) Menu pData) throws Exception {
+        service.add(pData);
+        return pData;
     }
-
 }
