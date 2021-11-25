@@ -16,7 +16,7 @@ public class Menu {
     @Schema(description = "Menu ID")
     private long id;
 
-    @Schema(description = "NAme of the menu")
+    @Schema(description = "Name of the menu")
     private String name;
 
     @Schema(description = "Foods in the menu")

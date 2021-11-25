@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,13 @@ public class AdminController {
             @ApiResponse(responseCode = "500", description = "Already exists",
                     content = { @Content(mediaType = "application/json") })
     })
-    @Operation(summary = "Add new menu")
+    @Operation(
+            security = {
+                    @SecurityRequirement(name = "apikey",scopes = {"menu"}),
+                    @SecurityRequirement(name = "openid",scopes = {"menu"}),
+                    @SecurityRequirement(name = "oauth2",scopes = {"menu"}),
+            },
+            summary = "Add new menu")
     @PostMapping(path = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     public Menu add(@Parameter(description = "The new menu", required = true) @RequestBody(required = true) Menu pData) throws Exception {
         service.add(pData);

@@ -1,6 +1,6 @@
 version: '3'
 services:
-  menu:
-    image: yokudlela/menu:menu-latest
+  table:
+    image: SDavid/yokudlelaMenu:menu-4.0
     ports:
       - 8080:8080
