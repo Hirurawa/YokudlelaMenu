@@ -1,9 +1,9 @@
 package yokudlela.menu.store;
 
-import yokudlela.menu.datamodel.Menu;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import yokudlela.menu.datamodel.Menu;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,14 @@ import java.util.stream.Collectors;
 @Service
 public class MenuRepository {
     private static final List<Menu> menus = new ArrayList<>();
+
+    @PostConstruct
+    public void  init(){
+        menus.add(Menu.builder()
+                    .name("A1")
+                    .build()
+                );
+    }
 
     public boolean delete(String pName){
         Optional<Menu> tmp = getByName(pName);
@@ -29,9 +37,6 @@ public class MenuRepository {
 
     public void modify(Menu pMenu) throws IllegalAccessException, InvocationTargetException {
         Optional<Menu> tmp = getByName(pMenu.getName());
-        if(!tmp.isEmpty()){
-            BeanUtils.copyProperties(tmp.get(), pMenu);
-        }
     }
 
     public Optional<Menu> getByName(String pName){
@@ -46,4 +51,5 @@ public class MenuRepository {
     public List<Menu> getAll(){
         return menus;
     }
+
 }

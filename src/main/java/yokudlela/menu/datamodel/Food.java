@@ -1,37 +1,33 @@
 package yokudlela.menu.datamodel;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @EqualsAndHashCode()
 @NoArgsConstructor
-@Schema(description = "Food")
+@Schema(description = "Food class")
 public class Food {
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Schema(description = "Food ID")
     private long id;
 
-    @NotBlank(message = "error.food.name.notset")
-    @NotNull(message = "error.food.name.notset")
     @Schema(description = "Name of the food")
     private String name;
 
-    @Schema(description = "How much of this food we have")
-    @Min(value = 1, message = "error.food.quantity.min")
+    @Schema(description = "Quantity of the food")
     private int quantity;
 
-    @Schema(description = "This food is in which menu")
-    @ManyToMany(mappedBy = "foods")
     private List<Menu> menus = new ArrayList<>();
+
+    @Builder
+    public Food(String name, int quantity)
+    {
+        this.name = name;
+        this.quantity = quantity;
+    }
 }
