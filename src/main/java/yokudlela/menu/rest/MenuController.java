@@ -10,7 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import yokudlela.menu.datamodel.Food;
 import yokudlela.menu.datamodel.Menu;
+import yokudlela.menu.store.FoodRepository;
 import yokudlela.menu.store.MenuRepository;
 import java.util.List;
 
@@ -18,7 +20,10 @@ import java.util.List;
 @RequestMapping(path = "/menu")
 public class MenuController {
     @Autowired
-    private MenuRepository service;
+    private MenuRepository MenuService;
+
+    @Autowired
+    private FoodRepository FoodService;
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success",
@@ -28,9 +33,24 @@ public class MenuController {
                     content = { @Content(mediaType = "application/json") })
     })
     @Operation(summary = "Get all menu")
-    @GetMapping(path = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Menu> getAll()
+    @GetMapping(path = "/getAllMenu", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Menu> getAllMenu()
     {
-        return service.getAll();
+        return MenuService.findAll();
+    }
+
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Food.class)) }),
+            @ApiResponse(responseCode = "500", description = "Unsuccessful",
+                    content = { @Content(mediaType = "application/json") })
+    })
+    @Operation(summary = "Get all food")
+    @GetMapping(path = "/getAllFood", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Food> getAllFood()
+    {
+        return FoodService.findAll();
     }
 }
