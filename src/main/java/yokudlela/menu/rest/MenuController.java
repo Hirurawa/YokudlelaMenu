@@ -14,6 +14,8 @@ import yokudlela.menu.datamodel.Food;
 import yokudlela.menu.datamodel.Menu;
 import yokudlela.menu.store.FoodRepository;
 import yokudlela.menu.store.MenuRepository;
+import yokudlela.menu.utils.logging.AspectLogger;
+
 import java.util.List;
 
 @RestController()
@@ -34,6 +36,7 @@ public class MenuController {
     })
     @Operation(summary = "Get all menu")
     @GetMapping(path = "/getAllMenu", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AspectLogger
     public List<Menu> getAllMenu()
     {
         return MenuService.findAll();

@@ -1,4 +1,4 @@
-package yokudlela.menu.spring;
+package yokudlela.menu.utils.validation;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

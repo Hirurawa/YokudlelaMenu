@@ -20,12 +20,12 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @Data
-@EqualsAndHashCode()
 @NoArgsConstructor
+@EqualsAndHashCode()
 @Entity
 @javax.persistence.Table(name = "menu")
-@Schema(description = "Menu class")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Schema(description = "Menu class")
 public class Menu {
     @Id
     @GeneratedValue(generator = "UUID")

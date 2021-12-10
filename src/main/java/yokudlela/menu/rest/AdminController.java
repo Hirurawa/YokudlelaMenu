@@ -34,7 +34,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Menu.class)) }),
+                    schema = @Schema(implementation = Menu.class)) }),
             @ApiResponse(responseCode = "500", description = "Already exists",
                     content = { @Content(mediaType = "application/json") })
     })

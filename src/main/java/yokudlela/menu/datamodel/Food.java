@@ -33,8 +33,6 @@ public class Food {
     @Schema(description = "Quantity of the food")
     private int quantity;
 
-    //private List<Menu> menus = new ArrayList<>();
-
     @Builder
     public Food(String name, int quantity)
     {

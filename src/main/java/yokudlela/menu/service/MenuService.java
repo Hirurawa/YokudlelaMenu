@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import yokudlela.menu.datamodel.Menu;
 import yokudlela.menu.store.FoodRepository;
 import yokudlela.menu.store.MenuRepository;
+import yokudlela.menu.utils.logging.AspectLogger;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class MenuService {
     FoodRepository foodRep;
     @Autowired
     MenuRepository menuRep;
+
 
     public List<Menu> getAll(){
         List<Menu> allAvailable = menuRep.findAll();
